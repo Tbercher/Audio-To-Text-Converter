@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gemini Audio Transcriber</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 50px; background: #f4f7f6; }
+        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 400px; }
+        #result { margin-top: 20px; white-space: pre-wrap; border: 1px solid #ddd; padding: 10px; background: #fafafa; min-height: 50px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        button:disabled { background: #ccc; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Media Transcriber</h2>
+    <p>Upload Audio or Video (MP4, MOV, etc.)</p>
+
+    <!-- Changed: accept both audio and video -->
+    <input type="file" id="mediaFile" accept="audio/*,video/*">
+    <br><br>
+
+    <button onclick="uploadMedia()" id="uploadBtn">Start Transcription</button>
+
+    <div id="loader" style="display:none; margin-top:10px;">
+        <span class="spinner"></span> Extracting & Transcribing...
+    </div>
+
+    <div id="result">The transcript will appear here...</div>
+</div>
+
+<script>
+    async function uploadMedia() {
+        const fileInput = document.getElementById('mediaFile');
+        const btn = document.getElementById('uploadBtn');
+        const resultDiv = document.getElementById('result');
+        const loader = document.getElementById('loader');
+
+        if (!fileInput.files[0]) {
+            alert("Please select a file!");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", fileInput.files[0]);
+
+        btn.disabled = true;
+        loader.style.display = "block";
+        resultDiv.innerText = "";
+
+        try {
+            const response = await fetch('/api/audio/transcribe', {
+                method: 'POST',
+                body: formData
+            });
+            const text = await response.text();
+            resultDiv.innerText = text;
+        } catch (error) {
+            resultDiv.innerText = "Error: " + error.message;
+        } finally {
+            btn.disabled = false;
+            loader.style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>
