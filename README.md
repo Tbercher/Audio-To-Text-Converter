@@ -44,11 +44,11 @@ Open src/main/resources/application.properties and configure your API key and fi
    
         spring.servlet.multipart.max-request-size=100MB
 
-4. Build and run
+3. Build and run
 Simply run through IDE and access the basic UI at http://localhost:8080/index.html
 
-Notes:
+# Notes / Remarks
 Due to Gemeni free usage requirements during peak hours you might want to switch to the pro model if flash is overloaded. Any file larger than 1 mb make sure spring.servlet.multipart.max-file-size is set to 50 or 100 MB.
 
-This was a cool little project I ran using Gemeni's AI studio, its was pretty limited though due to the limitations of the free api and high demand. I might come back and flesh this out later on and really see what AI can do but 
+This was a cool little project I ran using Gemeni's AI studio, its was pretty limited though due to the limitations of the free api and high demand. I might come back later and implement a react frontend for it to make it look more aesthetically pleasing but it is in its current state functional.
     
